@@ -42,10 +42,17 @@ export default function useUserRepository() {
 
     const clear = () => setUsers([])
     const insert = (user) => { setUsers([...users, { ...user, id: nextId++ }]) }
+    const destroy = (userId) => {
+        const userIndex = users.findIndex(user => user.id == userId);
+        const newUsers = users
+        newUsers.splice(userIndex, 1)
+        setUsers([...newUsers])
+    }
 
     return {
         users: usersFiltered,
         clearUsers: clear,
+        deleteUser: destroy,
         searchUser: setSearchTerm,
         searchTerm,
         insertUser: insert,

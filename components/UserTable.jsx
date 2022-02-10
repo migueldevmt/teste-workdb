@@ -2,10 +2,18 @@ import { useContext } from "react";
 
 import { UserContext } from "../hooks/useUserRepository";
 import Input from "../components/Input";
+import calculateAge from "../utils/calculateAge";
 
 function UserTable() {
-    const { users, sortUsersBy, sortBy, searchTerm, searchUser, clearUsers } =
-        useContext(UserContext);
+    const {
+        users,
+        sortUsersBy,
+        sortBy,
+        searchTerm,
+        searchUser,
+        clearUsers,
+        deleteUser,
+    } = useContext(UserContext);
 
     const exportData = () => {
         let jsonWindow = window.open();
@@ -53,6 +61,8 @@ function UserTable() {
                             Data de Nascimento{" "}
                             {sortBy == "birthdate" ? "▼" : null}
                         </th>
+                        <th scope="col">Idade</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +73,15 @@ function UserTable() {
                                 <td>{user.lastName}</td>
                                 <td>{user.height}</td>
                                 <td>{user.birthdate}</td>
+                                <td>{calculateAge(user.birthdate)}</td>
+                                <td>
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => deleteUser(user.id)}
+                                    >
+                                        Deletar
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                 </tbody>
